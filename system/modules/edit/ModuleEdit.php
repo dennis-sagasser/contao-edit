@@ -112,6 +112,11 @@ class ModuleEdit extends Module
             return;
         }
 
+        // Delete a single record
+        if ($this->Input->get('delete')) {
+            $this->deleteSingleRecord($this->Input->get('delete'));
+            return;
+        }
 
         /**
          * Add the search menu
@@ -287,7 +292,8 @@ class ModuleEdit extends Module
                     'class'   => 'col_' . $j . (($j++ == 0) ? ' col_first' : '') . ($this->edit_info ? '' : (($j >= (count($arrRows[$i]) - 1)) ? ' col_last' : '')),
                     'id'      => $arrRows[$i][$this->strPk],
                     'field'   => $k,
-                    'url'     => $strUrl . $strVarConnector . 'edit=' . $arrRows[$i][$this->strPk]
+                    'url'     => $strUrl . $strVarConnector . 'edit=' . $arrRows[$i][$this->strPk],
+                    'del'     => $strUrl . $strVarConnector . 'delete=' . $arrRows[$i][$this->strPk]
                 );
             }
         }
@@ -307,18 +313,19 @@ class ModuleEdit extends Module
         /**
          * Template variables
          */
-        $this->Template->action         = $this->getIndexFreeRequest();
-        $this->Template->details        = strlen($this->edit_info) ? true : false;
-        $this->Template->search_label   = specialchars($GLOBALS['TL_LANG']['MSC']['search']);
-        $this->Template->per_page_label = specialchars($GLOBALS['TL_LANG']['MSC']['list_perPage']);
-        $this->Template->fields_label   = $GLOBALS['TL_LANG']['MSC']['all_fields'][0];
-        $this->Template->keywords_label = $GLOBALS['TL_LANG']['MSC']['keywords'];
-        $this->Template->search         = $this->Input->get('search');
-        $this->Template->for            = $this->Input->get('for');
-        $this->Template->order_by       = $this->Input->get('order_by');
-        $this->Template->sort           = $this->Input->get('sort');
-        $this->Template->col_last       = 'col_' . $j;
-        $this->Template->no_entries     = empty($arrRows) ? $GLOBALS['TL_LANG']['MSC']['strNoEntries'] : false;
+        $this->Template->action           = $this->getIndexFreeRequest();
+        $this->Template->details          = strlen($this->edit_info) ? true : false;
+        $this->Template->search_label     = specialchars($GLOBALS['TL_LANG']['MSC']['search']);
+        $this->Template->per_page_label   = specialchars($GLOBALS['TL_LANG']['MSC']['list_perPage']);
+        $this->Template->fields_label     = $GLOBALS['TL_LANG']['MSC']['all_fields'][0];
+        $this->Template->keywords_label   = $GLOBALS['TL_LANG']['MSC']['keywords'];
+        $this->Template->search           = $this->Input->get('search');
+        $this->Template->for              = $this->Input->get('for');
+        $this->Template->order_by         = $this->Input->get('order_by');
+        $this->Template->sort             = $this->Input->get('sort');
+        $this->Template->col_last         = 'col_' . $j;
+        $this->Template->no_entries       = empty($arrRows) ? $GLOBALS['TL_LANG']['MSC']['strNoEntries'] : false;
+        $this->Template->strConfirmDelete = $GLOBALS['TL_LANG']['MSC']['strConfirmDelete'];
     }
 
 
@@ -430,17 +437,7 @@ class ModuleEdit extends Module
                 ->set($arrSetValues)
                 ->execute($id);
 
-            // after this: jump to "jumpTo-Page"
-            $jt = preg_replace('/\?.*$/i', '', $this->Environment->request);
-            // Get current "jumpTo" page
-            $objPage = $this->Database->prepare("SELECT id, alias FROM tl_page WHERE id=?")
-                ->limit(1)
-                ->execute($this->edit_jumpTo);
-
-            if ($objPage->numRows) {
-                $jt = $this->generateFrontendUrl($objPage->row());
-            }
-            $this->redirect($jt, 301);
+            $this->redirectToPage();
         }
 
         $objWidgetSubmit                 = new FormSubmit();
@@ -454,13 +451,45 @@ class ModuleEdit extends Module
 
 
     /**
+     * Edit a single record
+     * @param integer
+     */
+    protected function deleteSingleRecord($id)
+    {
+        $objDelete = $this->Database->prepare("DELETE FROM " . $this->edit_table . " WHERE id=?")
+            ->execute($id);
+
+        $this->redirectToPage();
+    }
+
+    /**
+     * Redirect
+     */
+    protected function redirectToPage()
+    {
+        // after this: jump to "jumpTo-Page"
+        $jt = preg_replace('/\?.*$/i', '', $this->Environment->request);
+        // Get current "jumpTo" page
+        $objPage = $this->Database->prepare("SELECT id, alias FROM tl_page WHERE id=?")
+            ->limit(1)
+            ->execute($this->edit_jumpTo);
+
+        if ($objPage->numRows) {
+            $jt = $this->generateFrontendUrl($objPage->row());
+        }
+        $this->redirect($jt, 301);
+
+    }
+
+    /**
      * Format a value
      * @param string
      * @param mixed
      * @param boolean
      * @return mixed
      */
-    protected function formatValue($k, $value, $blnEditSingle = false)
+    protected
+    function formatValue($k, $value, $blnEditSingle = false)
     {
         $value = deserialize($value);
 
@@ -509,7 +538,8 @@ class ModuleEdit extends Module
     /**
      * add the selected TinyMCE into the header of the page
      */
-    public function addTinyMCE($str)
+    public
+    function addTinyMCE($str)
     {
         if (!empty($str)) {
             $strFile         = sprintf('%s/system/config/%s.php', TL_ROOT, $str);
