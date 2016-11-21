@@ -45,4 +45,8 @@ $GLOBALS['TL_LANG']['tl_module']['edit_tinMCEtemplate']['0'] = "Richtext Editor"
 $GLOBALS['TL_LANG']['tl_module']['edit_tinMCEtemplate']['1'] = "Wählen Sie eine Konfigurations-Datei, falls Sie den TinyMCE Richtext-Editor verwenden möchten. Sie können weitere Konfigurationen durch Hinzufügen einer Datei \"tinyXXX\" im Ordner system/config.";
 $GLOBALS['TL_LANG']['tl_module']['edit_jumpTo']['0']         = "Weiterleitungsseite zum Bearbeiten";
 $GLOBALS['TL_LANG']['tl_module']['edit_jumpTo']['1']         = "Bitte wählen Sie eine Seite mit dem Event-Editor, auf den der User bei einem Klick auf einen Bearbeiten-Link weitergeleitet wird.";
+$GLOBALS['TL_LANG']['tl_module']['image_legend']             = "Bild-Optionen";
+$GLOBALS['TL_LANG']['tl_module']['efgMultiSRC']              = array("Bildordner", "Bitte wählen Sie alle Bilder und/oder Ordner, die für das Frontend zur Verfügung stehen sollen. Wenn Sie einen Ordner auswählen, werden alle darin enthaltenen Dateien automatisch einbezogen.");
+$GLOBALS['TL_LANG']['tl_module']['efgImagePerRow']           = array("Vorschaubilder pro Reihe", "Bitte legen Sie fest, wie viele Vorschaubilder pro Reihe angezeigt werden sollen.");
+
 ?>

@@ -23,4 +23,6 @@ CREATE TABLE `tl_module` (
   `edit_info_layout` varchar(32) NOT NULL default '',
   `edit_tinMCEtemplate` varchar(32) NOT NULL default '',
   `edit_jumpTo` int(10) unsigned NOT NULL default '0',
+  `efgImagePerRow` smallint(5) unsigned NOT NULL default '0',
+  `efgMultiSRC` text NULL,
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

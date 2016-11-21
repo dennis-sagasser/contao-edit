@@ -32,7 +32,7 @@
 /**
  * Add palettes to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['edit'] = '{title_legend},name,headline,type;{config_legend},edit_table,edit_fields,edit_where,edit_search,edit_sort,perPage,edit_info,edit_info_where,edit_jumpTo;{template_legend:hide},edit_layout,edit_info_layout,edit_tinMCEtemplate;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['edit'] = '{title_legend},name,headline,type;{config_legend},edit_table,edit_fields,edit_where,edit_search,edit_sort,perPage,edit_info,edit_info_where,edit_jumpTo;{image_legend:hide},efgMultiSRC,efgImagePerRow;{template_legend:hide},edit_layout,edit_info_layout,edit_tinMCEtemplate;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 
 /**
@@ -103,6 +103,23 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['edit_jumpTo'] = array
     'eval'      => array('fieldType' => 'radio')
 );
 
+$GLOBALS['TL_DCA']['tl_module']['fields']['efgMultiSRC'] = array
+(
+    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['efgMultiSRC'],
+    'exclude'                 => true,
+    'inputType'               => 'fileTree',
+    'eval'                    => array('fieldType'=>'checkbox', 'files'=>true, 'mandatory'=>true, 'extensions' => 'gif,jpg,png')
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['efgImagePerRow'] = array
+(
+    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['efgImagePerRow'],
+    'default'                 => 1,
+    'exclude'                 => true,
+    'inputType'               => 'select',
+    'options'                 => array(1, 2, 3, 4),
+    'eval'                    => array('tl_class' => 'w50')
+);
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['edit_layout'] = array
 (

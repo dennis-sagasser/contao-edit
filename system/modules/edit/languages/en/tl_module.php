@@ -43,5 +43,9 @@ $GLOBALS['TL_LANG']['tl_module']['list_layout']         = array('List template',
 $GLOBALS['TL_LANG']['tl_module']['list_info_layout']    = array('Details page template', 'Here you can select the details page template.');
 $GLOBALS['TL_LANG']['tl_module']['edit_tinMCEtemplate'] = array('Rich text editor', 'Select a configuration file if you want to use TinyMCE rich text editor. You can create custom configurations by adding a file called tinyXXX in system/config.');
 $GLOBALS['TL_LANG']['tl_module']['edit_jumpTo']         = array('Redirect page for editing', 'Please choose the event editor page to which the user will be redirected when clicking an edit link.');
+$GLOBALS['TL_LANG']['tl_module']['image_legend']        = "Image options";
+$GLOBALS['TL_LANG']['tl_module']['efgMultiSRC']         = array("Image folder", "Please select all images and/or folders, that should be available in frontend. If you select a folder, all underlying images are automatically included.");
+$GLOBALS['TL_LANG']['tl_module']['efgImagePerRow']      = array('Thumbnails per row', 'Please enter the number of thumbnails per row.');
+
 
 ?>

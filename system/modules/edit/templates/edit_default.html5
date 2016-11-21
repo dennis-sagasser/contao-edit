@@ -75,13 +75,11 @@
                 <td class="body <?php echo $col['class']; ?>"><?php echo $col['content']; ?></td>
             <?php endforeach; ?>
             <?php if ($this->details): ?>
-                <td class="body <?php echo $this->col_last; ?> col_last">
+                <td class="body <?php echo $this->col_last; ?> col_last" style="width:30px">
                     <a href="<?php echo $col['url']; ?>">
                         <img src="<?php echo TL_FILES_URL; ?>system/themes/default/images/edit.gif" alt="Edit"
                              title="Edit">
                     </a>
-                </td>
-                <td class="body <?php echo $this->col_last; ?> col_last">
                     <a href="<?php echo $col['del']; ?>">
                         <img src="<?php echo TL_FILES_URL; ?>system/themes/default/images/delete.gif" alt="Delete"
                              title="Delete"

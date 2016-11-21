@@ -405,6 +405,33 @@ class ModuleEdit extends Module
                     $objWidget->allowHtml    = true;
                     $objWidget->preserveTags = true;
                     break;
+                case 'addImage':
+                    $GLOBALS['TL_HEAD'][] = empty($v) ?
+                        '<script>window.addEvent(\'domready\', function() {
+$$(\'.image-options\', \'.imageselect\', \'#edit > .formbody > table\').hide();
+});</script>' : '';
+                    $objWidget            = new FormCheckBox();
+                    $objWidget->onclick   = '$$(\'.image-options\', \'.imageselect\', \'#edit > .formbody > table\').toggle();';
+                    $objWidget->options   = array(array(
+                        'value'   => '1',
+                        'label'   => (strlen(
+                            $label = $GLOBALS['TL_DCA'][$this->edit_table]['fields'][$k]['label'][0]) ? $label : $k
+                        ),
+                        'default' => $v,
+                    ));
+                    break;
+                case 'singleSRC':
+                    $objWidget                     = new EfgFormImageSelect();
+                    $objWidget->efgImageUseHomeDir = false;
+                    $objWidget->efgMultiSRC        = $this->efgMultiSRC;
+                    $objWidget->efgImagePerRow     = $this->efgImagePerRow;
+                    $class .= " image-options";
+                    break;
+                case 'alt':
+                    $objWidget       = new FormTextField();
+                    $objWidget->rgxp = 'extnd';
+                    $class .= " image-options";
+                    break;
                 default:
                     $objWidget       = new FormTextField();
                     $objWidget->rgxp = 'extnd';
@@ -442,6 +469,7 @@ class ModuleEdit extends Module
 
         $objWidgetSubmit                 = new FormSubmit();
         $objWidgetSubmit->id             = 'submit';
+        $objWidgetSubmit->singleSRC      = false;
         $objWidgetSubmit->slabel         = specialchars($GLOBALS['TL_LANG']['MSC']['save']);
         $this->Template->objWidgetSubmit = $objWidgetSubmit;
 
